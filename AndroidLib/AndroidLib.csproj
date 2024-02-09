@@ -76,7 +76,19 @@
     <EmbeddedResource Include="Resources\win-64\AndroidController\AdbWinApi.dll" />
     <EmbeddedResource Include="Resources\win-64\AndroidController\AdbWinUsbApi.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\linux\adb" />
+    <None Include="Resources\linux\etc1tool" />
+    <None Include="Resources\linux\fastboot" />
+    <None Include="Resources\linux\hprof-conv" />
+    <None Include="Resources\linux\lib64\libc++.so" />
+    <None Include="Resources\linux\make_f2fs" />
+    <None Include="Resources\linux\make_f2fs_casefold" />
+    <None Include="Resources\linux\mke2fs" />
+    <None Include="Resources\linux\mke2fs.conf" />
+    <None Include="Resources\linux\source.properties" />
+    <None Include="Resources\linux\sqlite3" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\win-64\Signer\testkey.pk8" />
     <EmbeddedResource Include="Resources\win-64\Signer\testkey.x509.pem" />
@@ -737,6 +749,7 @@
     <EmbeddedResource Include="Resources\mac\AndroidController\systrace\UPSTREAM_REVISION" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\linux\NOTICE.txt" />
     <Content Include="Resources\mac\AndroidController\api\api-versions.xml" />
     <EmbeddedResource Include="Resources\mac\AndroidController\NOTICE.txt" />
     <EmbeddedResource Include="Resources\mac\AndroidController\package.xml" />
