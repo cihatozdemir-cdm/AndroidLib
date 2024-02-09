@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RegawMOD.Android</RootNamespace>
     <AssemblyName>AndroidLib</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\AndroidLib.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AndroidLib.XML</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -77,17 +79,17 @@
     <EmbeddedResource Include="Resources\win-64\AndroidController\AdbWinUsbApi.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\linux\adb" />
-    <None Include="Resources\linux\etc1tool" />
-    <None Include="Resources\linux\fastboot" />
-    <None Include="Resources\linux\hprof-conv" />
-    <None Include="Resources\linux\lib64\libc++.so" />
-    <None Include="Resources\linux\make_f2fs" />
-    <None Include="Resources\linux\make_f2fs_casefold" />
-    <None Include="Resources\linux\mke2fs" />
-    <None Include="Resources\linux\mke2fs.conf" />
-    <None Include="Resources\linux\source.properties" />
-    <None Include="Resources\linux\sqlite3" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\adb" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\etc1tool" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\fastboot" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\hprof-conv" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\lib64\libc++.so" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\make_f2fs" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\make_f2fs_casefold" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\mke2fs" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\mke2fs.conf" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\source.properties" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\sqlite3" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\win-64\Signer\testkey.pk8" />
@@ -749,7 +751,7 @@
     <EmbeddedResource Include="Resources\mac\AndroidController\systrace\UPSTREAM_REVISION" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\linux\NOTICE.txt" />
+    <EmbeddedResource Include="Resources\linux\AndroidController\NOTICE.txt" />
     <Content Include="Resources\mac\AndroidController\api\api-versions.xml" />
     <EmbeddedResource Include="Resources\mac\AndroidController\NOTICE.txt" />
     <EmbeddedResource Include="Resources\mac\AndroidController\package.xml" />

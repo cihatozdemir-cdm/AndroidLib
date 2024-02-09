@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace RegawMOD
 {
@@ -144,7 +145,7 @@ namespace RegawMOD
                 case PlatformID.Win32NT:
                     return "win-64";
                 case PlatformID.Unix:
-                    return "linux";
+                    return RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? "mac" : "linux";
                 case PlatformID.MacOSX:
                     return "mac";
                 default:
