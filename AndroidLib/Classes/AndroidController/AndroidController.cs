@@ -56,20 +56,18 @@ namespace RegawMOD.Android
     /// </example>
     public sealed class AndroidController
     {
-        private const string ANDROID_CONTROLLER_TMP_FOLDER = "AndroidLib\\";
-        private static readonly Dictionary<string, string> RESOURCES = new Dictionary<string, string>
-        {
-            {"adb.exe","862c2b75b223e3e8aafeb20fe882a602"},
-            {"AdbWinApi.dll", "47a6ee3f186b2c2f5057028906bac0c6"},
-            {"AdbWinUsbApi.dll", "5f23f2f936bdfac90bb0a4970ad365cf"},
-            {"fastboot.exe", "35792abb2cafdf2e6844b61e993056e2"},
-        };
+        private const string ANDROID_CONTROLLER_RESOURCES_FOLDER = "\\AndroidController\\";
 
         private static AndroidController instance;
 
         private string resourceDirectory;
         private List<string> connectedDevices;
-        private bool Extract_Resources = false;
+
+
+        internal string ResourceDirectory
+        {
+            get { return this.resourceDirectory; }
+        }
 
         /// <summary>
         /// Gets the current AndroidController Instance.
@@ -81,9 +79,8 @@ namespace RegawMOD.Android
                 if (instance == null)
                 {
                     instance = new AndroidController();
-                    instance.CreateResourceDirectories();
                     instance.ExtractResources();
-                    Adb.StartServer();
+                    //Adb.StartServer();
                 }
 
                 return instance;
@@ -102,44 +99,34 @@ namespace RegawMOD.Android
             }
         }
 
-        internal string ResourceDirectory
-        {
-            get { return this.resourceDirectory; }
-        }
-
         private AndroidController()
         {
             this.connectedDevices = new List<string>();
-            ResourceFolderManager.Register(ANDROID_CONTROLLER_TMP_FOLDER);
-            this.resourceDirectory = ResourceFolderManager.GetRegisteredFolderPath(ANDROID_CONTROLLER_TMP_FOLDER);
-        }
-
-        private void CreateResourceDirectories()
-        {
-            try
-            {
-                if (!Adb.ExecuteAdbCommand(new AdbCommand("version")).Contains(Adb.ADB_VERSION))
-                {
-                    Adb.KillServer();
-                    Thread.Sleep(1000);
-                    ResourceFolderManager.Unregister(ANDROID_CONTROLLER_TMP_FOLDER);
-                    Extract_Resources = true;
-                }
-            }
-            catch (Exception)
-            {
-                Extract_Resources = true;
-            }
-            ResourceFolderManager.Register(ANDROID_CONTROLLER_TMP_FOLDER);
+ 
+            var targetFolder = string.Concat(ResourceFolderManager.GetFolderNameAtTargetOS, ANDROID_CONTROLLER_RESOURCES_FOLDER);
+            ResourceFolderManager.Register(targetFolder);
+            this.resourceDirectory = ResourceFolderManager.GetRegisteredFolderPath(targetFolder);
         }
 
         private void ExtractResources()
         {
-            if (this.Extract_Resources)
+            var extractResources = false;
+
+            try
             {
-                string[] res = new string[RESOURCES.Count];
-                RESOURCES.Keys.CopyTo(res, 0);
-                Extract.Resources(this, this.resourceDirectory, "Resources.AndroidController", res);
+                if (Adb.ExecuteAdbCommand(new AdbCommand("version")) == string.Empty)
+                {
+                    extractResources = true;
+                }
+            }
+            catch (Exception)
+            {
+                extractResources = true;
+            }
+
+            if (extractResources)
+            {
+                Extract.Resources(this, this.resourceDirectory, $"Resources.{ ResourceFolderManager.GetFolderNameAtTargetOS }.AndroidController");
             }
         }
 
@@ -152,7 +139,7 @@ namespace RegawMOD.Android
             if (Adb.ServerRunning)
             {
                 Adb.KillServer();
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
             }
             AndroidController.instance = null;
         }
@@ -174,10 +161,12 @@ namespace RegawMOD.Android
         /// </summary>
         /// <remarks><paramref name="deviceSerial"/> must be a serial number of a connected device, or the method returns null</remarks>
         /// <param name="deviceSerial">Serial number of connected device</param>
+        /// <param name="updateDeviceList">Update Device List before get device data</param>
         /// <returns><see cref="Device"/> containing info about the device with the serial number <paramref name="deviceSerial"/></returns>
-        public Device GetConnectedDevice(string deviceSerial)
+        public Device GetConnectedDevice(string deviceSerial, bool updateDeviceList = true)
         {
-            this.UpdateDeviceList();
+            if (updateDeviceList)
+                this.UpdateDeviceList();
 
             if (this.connectedDevices.Contains(deviceSerial))
                 return new Device(deviceSerial);

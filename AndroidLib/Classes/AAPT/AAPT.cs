@@ -24,7 +24,7 @@ namespace RegawMOD.Android
             ResourceFolderManager.Register("AAPT");
             this.resDir = ResourceFolderManager.GetRegisteredFolderPath("AAPT");
 
-            ExtractResources(this.resDir);
+            //ExtractResources(this.resDir);
         }
 
         /// <summary>

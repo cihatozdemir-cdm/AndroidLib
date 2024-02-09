@@ -31,7 +31,7 @@ namespace RegawMOD.Android
     /// </summary>
     public static class Fastboot
     {
-        private const string FASTBOOT_EXE = "fastboot.exe";
+        private const string FASTBOOT_EXE = "fastboot";
 
         internal static string Devices()
         {

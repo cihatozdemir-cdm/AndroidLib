@@ -34,7 +34,7 @@ namespace RegawMOD.Android
     {
         private static Object _lock = new Object();
         internal const string ADB = "adb";
-        internal const string ADB_EXE = "adb.exe";
+        internal const string ADB_EXECUTABLE = "adb";
         internal const string ADB_VERSION = "1.0.32";
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace RegawMOD.Android
         {
             lock (_lock)
             {
-                Command.RunProcessWriteInput(AndroidController.Instance.ResourceDirectory + ADB_EXE, "shell", inputLines);
+                Command.RunProcessWriteInput(AndroidController.Instance.ResourceDirectory + ADB_EXECUTABLE, "shell", inputLines);
             }
         }
 
@@ -158,7 +158,7 @@ namespace RegawMOD.Android
         {
             lock (_lock)
             {
-                Command.RunProcessWriteInput(AndroidController.Instance.ResourceDirectory + ADB_EXE, "shell", timeout, inputLines);
+                Command.RunProcessWriteInput(AndroidController.Instance.ResourceDirectory + ADB_EXECUTABLE, "shell", timeout, inputLines);
             }
         }
 
@@ -175,7 +175,7 @@ namespace RegawMOD.Android
 
             lock (_lock)
             {
-                result = Command.RunProcessReturnOutput(AndroidController.Instance.ResourceDirectory + ADB_EXE, command.Command, forceRegular, command.Timeout);
+                result = Command.RunProcessReturnOutput(AndroidController.Instance.ResourceDirectory + ADB_EXECUTABLE, command.Command, forceRegular, command.Timeout);
             }
 
             return result;
@@ -191,7 +191,7 @@ namespace RegawMOD.Android
         {
             lock (_lock)
             {
-                Command.RunProcessNoReturn(AndroidController.Instance.ResourceDirectory + ADB_EXE, command.Command, command.Timeout);
+                Command.RunProcessNoReturn(AndroidController.Instance.ResourceDirectory + ADB_EXECUTABLE, command.Command, command.Timeout);
             }
         }
 
@@ -206,7 +206,7 @@ namespace RegawMOD.Android
 
             lock (_lock)
             {
-                result = Command.RunProcessReturnExitCode(AndroidController.Instance.ResourceDirectory + ADB_EXE, command.Command, command.Timeout);
+                result = Command.RunProcessReturnExitCode(AndroidController.Instance.ResourceDirectory + ADB_EXECUTABLE, command.Command, command.Timeout);
             }
 
             return result;
@@ -220,7 +220,10 @@ namespace RegawMOD.Android
             get { return Command.IsProcessRunning(Adb.ADB); }
         }
 
-        internal static void StartServer()
+        /// <summary>
+        /// Start Adb Server
+        /// </summary>
+        public static void StartServer()
         {
             ExecuteAdbCommandNoReturn(Adb.FormAdbCommand("start-server"));
         }

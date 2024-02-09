@@ -37,7 +37,7 @@ namespace RegawMOD.Android
 
             resDir = ResourceFolderManager.GetRegisteredFolderPath("Signer");
 
-            ExtractResources(resDir);
+            //ExtractResources(resDir);
 
             result = Java.RunJar(resDir + "signapk.jar", "\"" + resDir + "testkey.x509.pem\"", "\"" + resDir + "testkey.pk8\"", "\"" + unsigned + "\"", "\"" + unsigned.Replace(".zip", "_signed.zip\""));
             

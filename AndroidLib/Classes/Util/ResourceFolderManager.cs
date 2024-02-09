@@ -2,8 +2,10 @@
  * ResourceFolderManager.cs - Developed by Dan Wager for AndroidLib.dll - 04/12/12
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace RegawMOD
 {
@@ -40,18 +42,38 @@ namespace RegawMOD
     /// </example>
     public static class ResourceFolderManager
     {
-        private static readonly DirectoryInfo REGAWMOD_TEMP_DIRECTORY;
+        private static readonly DirectoryInfo REGAWMOD_RESOURCE_DIRECTORY;
         private static Dictionary<string, DirectoryInfo> controlledFolders;
+        private static string targetOSFolderName = string.Empty;
 
+        /// <summary>
+        /// Get Folder Name to take target OS Resources 
+        /// </summary>
+        public static string GetFolderNameAtTargetOS
+        {
+            get
+            {
+                if (targetOSFolderName == string.Empty)
+                {
+                    targetOSFolderName = GetFolderAtTargetOS();
+                }
+
+                return targetOSFolderName;
+            }
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         static ResourceFolderManager()
         {
-            REGAWMOD_TEMP_DIRECTORY = new DirectoryInfo(Path.GetTempPath() + "\\RegawMOD\\");
+            REGAWMOD_RESOURCE_DIRECTORY = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Resources\\");
             controlledFolders = new Dictionary<string, DirectoryInfo>();
 
-            if (!REGAWMOD_TEMP_DIRECTORY.Exists)
-                REGAWMOD_TEMP_DIRECTORY.Create();
+            if (!REGAWMOD_RESOURCE_DIRECTORY.Exists)
+                REGAWMOD_RESOURCE_DIRECTORY.Create();
 
-            foreach (DirectoryInfo d in REGAWMOD_TEMP_DIRECTORY.GetDirectories("*", SearchOption.TopDirectoryOnly))
+            foreach (DirectoryInfo d in REGAWMOD_RESOURCE_DIRECTORY.GetDirectories("*", SearchOption.TopDirectoryOnly))
                 controlledFolders.Add(d.Name, d);
         }
         
@@ -85,7 +107,7 @@ namespace RegawMOD
             if (controlledFolders.ContainsKey(name))
                 return false;
 
-            controlledFolders.Add(name, new DirectoryInfo(REGAWMOD_TEMP_DIRECTORY + name));
+            controlledFolders.Add(name, new DirectoryInfo(REGAWMOD_RESOURCE_DIRECTORY + name));
 
             if (!controlledFolders[name].Exists)
                 controlledFolders[name].Create();
@@ -108,6 +130,26 @@ namespace RegawMOD
             catch { return false; }
 
             return controlledFolders.Remove(name);
+        }
+
+        /// <summary>
+        /// Get Folder name to take resources
+        /// </summary>
+        /// <returns>Target OS folder name</returns>
+        /// <exception cref="NotSupportedException"></exception>
+        private static string GetFolderAtTargetOS()
+        {
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.Win32NT:
+                    return "win-64";
+                case PlatformID.Unix:
+                    return "linux";
+                case PlatformID.MacOSX:
+                    return "mac";
+                default:
+                    throw new NotSupportedException("AndroidLib is supported on Windows (.NET FX, .NET Core), Linux (.NET Core) and OS X (.NET Core)");
+            }
         }
     }
 }
