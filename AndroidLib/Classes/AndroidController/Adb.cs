@@ -112,7 +112,7 @@ namespace RegawMOD.Android
         public static AdbCommand FormAdbShellCommand(Device device, bool rootShell, string executable, params object[] args)
         {
             if (rootShell && !device.HasRoot)
-                throw new DeviceHasNoRootException();
+                throw new aDeviceException(aDeviceError.DeviceHasNoRoot);
 
             string shellCommand = string.Format("-s {0} shell \"", device.SerialNumber);
 
