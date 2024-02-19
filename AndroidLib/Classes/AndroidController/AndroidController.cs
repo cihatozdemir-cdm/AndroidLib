@@ -70,6 +70,11 @@ namespace RegawMOD.Android
         }
 
         /// <summary>
+        /// This class is Initialized succesfully
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
+        /// <summary>
         /// Gets the current AndroidController Instance.
         /// </summary>
         public static AndroidController Instance
@@ -79,7 +84,7 @@ namespace RegawMOD.Android
                 if (instance == null)
                 {
                     instance = new AndroidController();
-                    instance.ExtractResources();
+                    instance.FindResources();
                     //Adb.StartServer();
                 }
 
@@ -108,25 +113,18 @@ namespace RegawMOD.Android
             this.resourceDirectory = ResourceFolderManager.GetRegisteredFolderPath(targetFolder);
         }
 
-        private void ExtractResources()
+        private void FindResources()
         {
-            var extractResources = false;
-
             try
             {
-                if (Adb.ExecuteAdbCommand(new AdbCommand("version")) == string.Empty)
+                if (Adb.ExecuteAdbCommand(new AdbCommand("version")) != string.Empty)
                 {
-                    extractResources = true;
+                    IsInitialized = true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                extractResources = true;
-            }
-
-            if (extractResources)
-            {
-                Extract.Resources(this, this.resourceDirectory, $"Resources.{ ResourceFolderManager.GetFolderNameAtTargetOS }.AndroidController");
+                throw new Exception($"Adb can not running! {e}");
             }
         }
 

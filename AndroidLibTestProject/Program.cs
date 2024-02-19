@@ -1,6 +1,6 @@
 ﻿using RegawMOD.Android;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+namespace MyApp
 {
     internal class Program
     {
@@ -15,7 +15,16 @@ namespace MyApp // Note: actual namespace depends on the project name.
             }
 
             Console.WriteLine("Device Connected");
-            Console.WriteLine(AndroidController.Instance.GetConnectedDevice().SerialNumber);
+
+            AdbCommand adbCmd = Adb.FormAdbCommand("logcat");
+            Adb.ExecuteAdbCommand(adbCmd);
+
+            return;
+            using (StringReader r = new StringReader(Adb.ExecuteAdbCommand(adbCmd)))
+            {
+                var output = r.ReadToEnd();
+                Console.WriteLine(output);
+            }
 
 
             AndroidController.Instance.Dispose();

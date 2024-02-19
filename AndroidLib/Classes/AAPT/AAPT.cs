@@ -9,11 +9,6 @@ namespace RegawMOD.Android
     /// </summary>
     public partial class AAPT : IDisposable
     {
-        private static Dictionary<string, string> RESOURCES = new Dictionary<string, string>
-        {
-            {"aapt.exe", "26a35ee028ed08d7ad0d18ffb6bb587a"}
-        };
-
         private string resDir;
 
         /// <summary>
@@ -23,8 +18,6 @@ namespace RegawMOD.Android
         {
             ResourceFolderManager.Register("AAPT");
             this.resDir = ResourceFolderManager.GetRegisteredFolderPath("AAPT");
-
-            //ExtractResources(this.resDir);
         }
 
         /// <summary>
@@ -38,14 +31,6 @@ namespace RegawMOD.Android
                 throw new FileNotFoundException();
 
             return new Badging(source, Command.RunProcessReturnOutput(Path.Combine(this.resDir, "aapt.exe"), "dump badging \"" + source.FullName + "\"", true, Command.DEFAULT_TIMEOUT));
-        }
-
-        private void ExtractResources(string path)
-        {
-            string[] res = new string[RESOURCES.Count];
-            RESOURCES.Keys.CopyTo(res, 0);
-
-            Extract.Resources("RegawMOD.Android", path, "Resources.AAPT", res);
         }
 
         /// <summary>
