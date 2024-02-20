@@ -124,7 +124,7 @@ namespace RegawMOD.Android
             }
             catch (Exception e)
             {
-                throw new Exception($"Adb can not running! {e}");
+                throw new aDeviceException(aDeviceError.AdbNotFound, e.Message);
             }
         }
 
@@ -134,11 +134,11 @@ namespace RegawMOD.Android
         /// <remarks>Needs to be called when application has finished using <see cref="AndroidController"/></remarks>
         public void Dispose()
         {
-            if (Adb.ServerRunning)
+            /*if (Adb.ServerRunning)
             {
                 Adb.KillServer();
                 //Thread.Sleep(1000);
-            }
+            } */
             AndroidController.instance = null;
         }
 

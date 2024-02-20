@@ -69,7 +69,6 @@
     <Compile Include="Classes\AndroidController\FileSystem.cs" />
     <Compile Include="Classes\AndroidController\Enums.cs" />
     <Compile Include="Classes\AndroidController\Phone.cs" />
-    <Compile Include="Classes\AndroidController\Exceptions.cs" />
     <Compile Include="Classes\Util\Java.cs" />
     <Compile Include="Classes\Util\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

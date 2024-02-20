@@ -228,7 +228,10 @@ namespace RegawMOD.Android
             ExecuteAdbCommandNoReturn(Adb.FormAdbCommand("start-server"));
         }
 
-        internal static void KillServer()
+        /// <summary>
+        /// Kill Adb Server
+        /// </summary>
+        public static void KillServer()
         {
             ExecuteAdbCommandNoReturn(Adb.FormAdbCommand("kill-server"));
         }
